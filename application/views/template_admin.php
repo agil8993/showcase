@@ -17,7 +17,7 @@
   class="light-style layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="../assets/"
+  data-assets-path="<?= base_url('assets/temp/') ?>/assets/"
   data-template="vertical-menu-template-free"
 >
   <head>
@@ -140,58 +140,37 @@
           <div class="menu-inner-shadow"></div>
 
           <ul class="menu-inner py-1">
-            <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
-              </a>
-            </li>
+    <!-- Dashboard -->
+    <li class="menu-item <?= ($this->uri->segment(1) == 'home') ? 'active' : '' ?>">
+        <a href="<?= base_url('home') ?>" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Dashboard</div>
+        </a>
+    </li>
 
-            <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                <div data-i18n="Analytics">User</div>
-              </a>
-            </li>
+    <!-- Pengguna -->
+    <li class="menu-item <?= ($this->uri->segment(1) == 'user') ? 'active' : '' ?>">
+        <a href="<?= base_url('user') ?>" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+            <div data-i18n="Analytics">Pengguna</div>
+        </a>
+    </li>
 
-            <!-- Layouts -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Layouts</div>
-              </a>
+    <!-- Kategori -->
+    <li class="menu-item <?= ($this->uri->segment(2) == 'kategori') ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/kategori') ?>" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-list-ul"></i>
+            <div data-i18n="Analytics">Kategori</div>
+        </a>
+    </li>
+    <li class="menu-item <?= ($this->uri->segment(2) == 'karya') ? 'active' : '' ?>">
+        <a href="<?= base_url('admin/karya') ?>" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-list-ul"></i>
+            <div data-i18n="Analytics">Karya</div>
+        </a>
+    </li>
+</ul>
 
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="layouts-without-menu.html" class="menu-link">
-                    <div data-i18n="Without menu">Without menu</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="layouts-without-navbar.html" class="menu-link">
-                    <div data-i18n="Without navbar">Without navbar</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="layouts-container.html" class="menu-link">
-                    <div data-i18n="Container">Container</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="layouts-fluid.html" class="menu-link">
-                    <div data-i18n="Fluid">Fluid</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="layouts-blank.html" class="menu-link">
-                    <div data-i18n="Blank">Blank</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
         </aside>
         <!-- / Menu -->
 
@@ -300,6 +279,59 @@
               </ul>
             </div>
           </nav>
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <?= $contents;?>
+            <!-- / Content -->
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  , made with ❤️ by
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+                </div>
+                <div>
+                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                  <a
+                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Documentation</a
+                  >
+
+                  <a
+                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                    target="_blank"
+                    class="footer-link me-4"
+                    >Support</a
+                  >
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
     <div class="buy-now">
       <a
         href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
@@ -330,5 +362,18 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script>
+    setTimeout(function() {
+        var notif = document.getElementById('menghilang');
+        if (notif) {
+            notif.style.transition = "opacity 0.5s ease";
+            notif.style.opacity = 0;
+            setTimeout(function() {
+                notif.remove();
+            }, 500); // tunggu efek fade
+        }
+    }, 3000); // 3000 ms = 3 detik
+</script>
+
   </body>
 </html>
