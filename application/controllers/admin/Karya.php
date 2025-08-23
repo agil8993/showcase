@@ -34,8 +34,13 @@ class Karya extends CI_Controller {
         $file_path = $karya->file_path;
 
         if (!empty($_FILES['file_path']['name'])) {
-            $file_path = $this->_uploadFile();
-        }
+    // hapus file lama kalau ada
+    if ($karya->file_path && file_exists($karya->file_path)) {
+        unlink($karya->file_path);
+    }
+    $file_path = $this->_uploadFile();
+}
+
 
         $data = [
             'user_id' => $this->input->post('user_id'),
@@ -55,15 +60,17 @@ class Karya extends CI_Controller {
     }
 
     private function _uploadFile() {
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf|docx';
-        $config['max_size'] = 2048;
+    $config['upload_path']   = './uploads/karya/';  // folder khusus karya
+    $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf|docx';
+    $config['max_size']      = 2048;
+    $config['file_name']     = time().'_'.$_FILES['file_path']['name']; // biar unik
 
-        $this->load->library('upload', $config);
+    $this->load->library('upload', $config);
 
-        if ($this->upload->do_upload('file_path')) {
-            return 'uploads/'.$this->upload->data('file_name');
-        }
-        return null;
+    if ($this->upload->do_upload('file_path')) {
+        return 'uploads/karya/'.$this->upload->data('file_name'); // simpan path relatif
     }
+    return null;
+}
+
 }
