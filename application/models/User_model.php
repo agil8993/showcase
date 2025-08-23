@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User_model extends CI_Model {
 
-    private $table = 'user'; // kalau mau ganti jadi 'user', ubah di sini
+    private $table = 'user'; // nama tabel
 
     public function getAll() {
         return $this->db->get($this->table)->result();
@@ -19,5 +19,13 @@ class User_model extends CI_Model {
 
     public function delete($id) {
         return $this->db->where('user_id', $id)->delete($this->table);
+    }
+
+    // Fungsi untuk login: cari user berdasarkan username atau email
+    public function getByUsernameOrEmail($input) {
+        return $this->db->where('username', $input)
+                        ->or_where('email', $input)
+                        ->get($this->table)
+                        ->row();
     }
 }
